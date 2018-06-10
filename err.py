@@ -2,12 +2,6 @@
 
 import math
 
-def printArr(string, lst):
-    print('-------------------')
-    print(string)
-    print(lst)
-    print('-------------------')
-
 def _sigmoid(x):
     return 1/(1+math.exp(-x))
 
@@ -73,8 +67,8 @@ if __name__=='__main__':
     how_much_training=int(input('input the number of training : '))
 
     for epoch in range(how_much_training):
-        if(epoch%10000==0):
-            print(epoch)
+        #if(epoch%10000==0):
+            #print(epoch)
         #print("===========================================")
         
         net_nj=[[n.input(1,1,sigmoid=False),
@@ -131,17 +125,6 @@ if __name__=='__main__':
         #printArr('dE/dW for output neuron is : ',dE_dw_output)
         #printArr('dE/dW for hidden neuron is : ',dE_dw_hidden)
 
-        '''
-        w_hidden=[[-0.089, 0.028, 0.092],[0.098, -0.07, -0.01]]
-        w_output=[0.056,0.067,0.016]
-        '''
-
-        '''for i in range(len(w_output)):
-            print('{}-0.5*{}'.format(w_output[i],dE_dw_output[i]))
-        for i in range(2):
-            for j in range(len(w_hidden[0])):
-                print('{}-0.5*{}'.format(w_hidden[i][j],dE_dw_hidden[3*i+j]))'''
-
         #output_layer.print_w()
         #hidden_layer[0].print_w()
         #hidden_layer[1].print_w()
@@ -155,22 +138,27 @@ if __name__=='__main__':
         output_layer.fix_w(dE_dw_output,learning_rate)
         hidden_layer[0].fix_w(dE_dw_hidden[3:],learning_rate)
         hidden_layer[1].fix_w(dE_dw_hidden[:3],learning_rate) #fix weights
-
-        '''if epoch%100==0 and epoch!=0:
-            print('for epoch=',epoch)
-            #print('output layer neuron after trained {} times :\t'.format(epoch+1), end='')
+        
+        '''if epoch in [0,1000,2000,3000,4000,5000,10000,20000,30000,40000,50000,60000,70000,80000,90000,100000]:
+            print("=====================")
+            print(epoch)
             print('output : ')
-            output_layer.print_w() #gradient descent for each neuron
-            for i,n in enumerate(hidden_layer): #gradient descent for each neuron
-                #print('hidden layer neuron {} after trained [{}] times:\t'.format(i,epoch+1), end='')
+            output_layer.print_w() 
+            for i,n in enumerate(hidden_layer): 
                 print('hidden layer {} : '.format(i+1) ,end='')
-                n.print_w()'''
+                n.print_w()
 
-    #print('output layer neuron after trained {} times :\t'.format(epoch+1), end='')
+            for i, j in [(1,1),(1,0),(0,1),(0,0)]:
+                a=hidden_layer[0].input(i,j)
+                b=hidden_layer[1].input(i,j)
+                print(output_layer.input(a,b,sigmoid=True),end=',')
+            print()'''
+
+    print("=====================")
+    #print(epoch)
     print('output : ')
     output_layer.print_w() 
     for i,n in enumerate(hidden_layer): 
-        #print('hidden layer neuron {} after trained [{}] times:\t'.format(i,epoch+1), end='')
         print('hidden layer {} : '.format(i+1) ,end='')
         n.print_w()
 
@@ -178,6 +166,8 @@ if __name__=='__main__':
         a=hidden_layer[0].input(i,j)
         b=hidden_layer[1].input(i,j)
         print(output_layer.input(a,b,sigmoid=True))
+    print()
+
 
 
 
